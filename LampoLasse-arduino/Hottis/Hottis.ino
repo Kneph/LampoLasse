@@ -1,8 +1,15 @@
 
 /* 
-/
-/SMS pohja: https://www.arduino.cc/en/Tutorial/GSMExamplesSendSMS
-/Devaajat: Katri Vilonen, Juha Vanhamäki
+
+For this project you need:
+- Arduino Uno
+- GSM/GPRS shield that is compatible with your arduino
+- temperature sensor (in this phase we used TMP35)
+
+Send SMS example - Arduino.cc : https://www.arduino.cc/en/Tutorial/GSMExamplesSendSMS
+Recieve SMS example - Arduino.cc : https://www.arduino.cc/en/Tutorial/GSMExamplesReceiveSMS
+Temperature sensor example - Arduino Playground : http://playground.arduino.cc/ComponentLib/Thermistor2
+by Katri Vilonen, Juha Vanhamäki
 */
 
 //GSM gsmAccess;
