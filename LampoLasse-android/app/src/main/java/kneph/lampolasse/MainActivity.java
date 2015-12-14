@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         fab.setOnClickListener(this);
         image.setOnClickListener(this);
-
     }
 
     private void textmessage(String smsnumber, String messageToSend) {

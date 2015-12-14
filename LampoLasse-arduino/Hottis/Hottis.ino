@@ -9,12 +9,14 @@ For this project you need:
 Send SMS example - Arduino.cc : https://www.arduino.cc/en/Tutorial/GSMExamplesSendSMS
 Recieve SMS example - Arduino.cc : https://www.arduino.cc/en/Tutorial/GSMExamplesReceiveSMS
 Temperature sensor example - Arduino Playground : http://playground.arduino.cc/ComponentLib/Thermistor2
-by Katri Vilonen, Juha Vanhamäki
+by Katri Vilonen, Juha VanhamÃ¤ki
 */
 
 //GSM gsmAccess;
 //GSM_SMS sms;
 //TMP36 Pin Variables
+#include <SoftwareSerial.h>
+SoftwareSerial Sarjaportti(7,8);
 int sensorPin = 0; //the analog pin the TMP36's Vout (sense) pin is connected to
                         //the resolution is 10 mV / degree centigrade with a
                         //500 mV offset to allow for negative temperatures
@@ -26,9 +28,10 @@ int sensorPin = 0; //the analog pin the TMP36's Vout (sense) pin is connected to
  */
 void setup()
 {
+  Sarjaportti.begin(19200); //GPRS shieldin baudinopeus
   Serial.begin(9600);  //Start the serial connection with the computer
                        //to view the result open the serial monitor
-  /*while (!Serial) {
+  while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
 
@@ -49,9 +52,9 @@ void setup()
   }
 
   Serial.println("GSM initialized");
-  */
   
-  /*while (!Serial) {
+  
+  while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
 
@@ -73,7 +76,7 @@ void setup()
   Serial.println("GSM initialized");
   Serial.println("Waiting for messages");
 }
-*/
+
  
 }
  
@@ -107,12 +110,12 @@ void loop()                     // run over and over again
    }
    
    if (temperatureC <= annettulampotila) {
-   // Lähetä lämmitys signaali
+   // LÃ¤hetÃ¤ lÃ¤mmitys signaali
    //Tulosta serialiin juttuja
    Serial.println("lahetetaan signaali");
    }
 }
-/*
+
 void viestinlahetys(){
 
   Serial.print("Enter a mobile number: ");
@@ -156,9 +159,8 @@ int readSerial(char result[]) {
     }
   }
 }
-*/
 
-/*
+
 void vestinvastaanotto() {
   char c;
 
@@ -192,5 +194,5 @@ void vestinvastaanotto() {
   delay(1000);
 
 }
-*/
+
 
