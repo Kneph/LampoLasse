@@ -16,10 +16,15 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    FloatingActionButton fab;
+    ImageView image;
 
     public String messageToSend;
     public String smsnumber;
+    public String SUCCESS;
+    public String FAIL;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -30,52 +35,36 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //lähetysnumeron määritys
+        // find views and set onClickListeners
+        findViews();
+        // number to send text message to
         smsnumber = "+358405863261";
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    messageToSend = "KAYNNISTYSSUBZERO";
-                    tekstari(smsnumber, messageToSend);
-                    Snackbar.make(view, "Viesti lähetetty", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                } catch (Exception e) {
-                    Snackbar.make(view, "Viestin lähettäminen epäonnistui", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                    e.getStackTrace();
-                }
 
-            }
-        });
-
-        ImageView image = (ImageView) findViewById(R.id.image);
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    messageToSend = "KYSELYJOHNNYCAGE";
-                    tekstari(smsnumber, messageToSend);
-                    Snackbar.make(v, "Viesti lähetetty", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                } catch (Exception e) {
-                    Snackbar.make(v, "Viestin lähettäminen epäonnistui", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                    e.getStackTrace();
-                }
-            }
-        });
+        // fail and success messages
+        SUCCESS = getResources().getString(R.string.onnistui);
+        FAIL = getResources().getString(R.string.epaonnistui);
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    private void tekstari(String smsnumber, String messageToSend){
+    private void findViews() {
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        image = (ImageView) findViewById(R.id.image);
+
+        fab.setOnClickListener(this);
+        image.setOnClickListener(this);
+
+    }
+
+    private void textmessage(String smsnumber, String messageToSend) {
+        // call SmsManager
         SmsManager smsManager = SmsManager.getDefault();
+        // define the message and the number you wanna send it to
         smsManager.sendTextMessage(smsnumber, null, messageToSend, null, null);
-        Log.i("tekstari", messageToSend+" lähetetty numeroon "+smsnumber);
+        // log message for shits and giggles
+        Log.i("textmessage", messageToSend + " lähetetty numeroon " + smsnumber);
     }
 
     @Override
@@ -139,4 +128,38 @@ public class MainActivity extends AppCompatActivity {
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == fab.getId()) {
+            // if floating action button was clicked
+            // define message
+            messageToSend = getResources().getString(R.string.kaynnistys_viesti);
+            messagePackingDistrict(v, messageToSend);
+
+        } else if (v.getId() == image.getId()) {
+            // if image was clicked
+            // define message
+            messageToSend = getResources().getString(R.string.kysely_viesti);
+            messagePackingDistrict(v, messageToSend);
+        }
+    }
+
+    private void messagePackingDistrict(View v, String messageToSend) {
+        try {
+            // sends message to defined number
+            textmessage(smsnumber, messageToSend);
+            // snackbar näyttää onnistuko vai feilasko viestin lähetys
+            makeASnack(v, SUCCESS);
+        } catch (Exception e) {
+            makeASnack(v, FAIL);
+            e.getStackTrace();
+        }
+    }
+
+    private void makeASnack(View v, String viesti) {
+        Snackbar.make(v, viesti, Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+    }
+
 }

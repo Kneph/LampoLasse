@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">LampoLasse</string>
     <string name="action_settings">Settings</string>
+    <string name="kaynnistys_viesti">KAYNNISTYSSUBZERO</string>
+    <string name="kysely_viesti">KYSELYJOHNNYCAGE</string>
+    <string name="onnistui">Viesti lähetetty.</string>
+    <string name="epaonnistui">Viestin lähettäminen epäonnistui.</string>
 </resources>
